@@ -1,0 +1,41 @@
+def hypothesis(x,theta):
+hx=theta[0]
+for i in range(x.shape[0]):
+hx+=theta[i]*x[i]
+return hx
+def gradient(x,y,theta):
+grad=np.zeros((x.shape[1]+1,))
+for i in range(x.shape[0]):
+hx=hypothesis(x[i],theta)
+grad[0]+=(hx-y[i])
+j=1
+for j in range(grad.shape[0]-1):
+grad[j]+=(hx-y[i])x[i][j]
+return grad
+def error(x,y,theta):
+m=x.shape[0]
+err=0
+for i in range(m):
+hx=hypothesis(x[i],theta)
+err+=(hx-y[i])**2
+return err
+def gradientdescent(x,y,learning_rate=0.001):
+theta=np.zeros((x.shape[1]+1,))
+err=error(x,y,theta)
+del_err=err
+itr=1
+while del_err>0.001:
+grad=gradient(x,y,theta)
+for i in range(theta.shape[0]):
+theta[i]=theta[i]-learning_rategrad[i]
+m=error(x,y,theta)
+if m>=err:
+del_err=m-err
+else:
+del_err=err-m
+err=m
+itr+=1
+print(del_err)
+#itr+=1
+return theta
+
